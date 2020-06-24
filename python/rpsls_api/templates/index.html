@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RPSLS</title>
+    <meta charset="UTF-8" />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>Rock Paper Scissors Lizard Spock</h1>
+    <p>
+      This is a mock front-end to test your RPSLS API against.
+    </p>
+    <H3>Step 1: Put your root URL here</H3>
+    <input
+      style="width:300px"
+      type="text"
+      id="rootUrl"
+      value="http://localhost:5000"
+    />
+    <H3>Step 2: Populate choices from the /choices endpoint</H3>
+    <button onclick="getChoices()">
+      Click me!
+    </button>
+    <div id="choices">
+      <ul id="choicesList"></ul>
+    </div>
+    <H3
+      >Step 3: Click an above choice to play against the computer with the /play
+      endpoint</H3
+    >
+    <div id="results"></div>
+    <H3>Random Choice</H3>
+    <div id="choice">
+      <button onclick="getChoice()">
+        Get Random Choice from /choice endpoint
+      </button>
+      <p id="choiceTag"></p>
+    </div>
+    <button
+      id="butwhy"
+      onclick="alert('We just want to keep it nice and lo-fi :)')"
+    >
+      But why this ugly page?
+    </button>
+  </body>
+  <script>
+    function rootUrl() {
+      return $("#rootUrl").val();
+    }
+
+    let choices = [];
+
+    function createChoices(results) {
+      $("#choices ul").empty();
+      for (i in results) {
+        const choiceId = results[i].id;
+        var resultButton = document.createElement("button");
+        resultButton.id = "choice-" + choiceId;
+        resultButton.innerText = results[i].name;
+
+        choices[results[i].id] = results[i].name;
+
+        $("#choices ul").append($("<li>").append(resultButton));
+        resultButton.onclick = function() {
+          playWithChoice(choiceId);
+        };
+      }
+    }
+
+    function getChoice() {
+      $.get({
+        url: rootUrl() + "/choice",
+        success: function(result) {
+          console.log(result);
+          $("#choiceTag").text(result.name);
+        }
+      });
+    }
+
+    function getChoices() {
+      $.get({
+        url: rootUrl() + "/choices",
+        success: function(result) {
+          console.log(result);
+          createChoices(result);
+        }
+      });
+    }
+
+    function playWithChoice(id) {
+      console.log("played with " + id);
+
+      $.ajax({
+        url: rootUrl() + "/play",
+        type: "POST",
+        data: `{"player":` + id + `}`,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data, status) {
+          if (status === "success") {
+            console.log("computer played with " + data.computer);
+            $("#results").text(
+              "You played " +
+                choices[data.player] +
+                " & the computer played " +
+                choices[data.computer] +
+                ". You " +
+                data.results
+            );
+          } else {
+            alert(status);
+          }
+        }
+      });
+    }
+  </script>
+</html>

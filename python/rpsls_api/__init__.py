@@ -36,11 +36,12 @@ def create_app(test_config=None):
             'computer': computer_choice
         }
 
-    def calculate_winner(player_choice, computer_choice):
-        if computer_choice in [(player_choice + 1) % 5, (player_choice + 3) % 5]:
-            return 'win'
-        if player_choice in [(computer_choice + 1) % 5, (computer_choice + 3) % 5]:
-            return 'lose'
-        return 'tie'
-
     return app
+
+
+def calculate_winner(player_choice, computer_choice):
+    if computer_choice in [(player_choice + 1) % 5, (player_choice + 3) % 5]:
+        return 'win'
+    if player_choice in [(computer_choice + 1) % 5, (computer_choice + 3) % 5]:
+        return 'lose'
+    return 'tie'

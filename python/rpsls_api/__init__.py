@@ -1,7 +1,5 @@
 import random
-from flask import Flask
-from flask import render_template
-from flask import json
+from flask import Flask, render_template, json, request
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -9,7 +7,7 @@ def create_app(test_config=None):
     if test_config is not None:
         app.config.from_mapping(test_config)
 
-    choice_list = ('rock', 'paper', 'scissors', 'lizard', 'spock')
+    choice_list = ('scissors', 'paper', 'rock', 'lizard', 'spock')
     num_choices = len(choice_list)
     zipped_list = zip(range(1, num_choices+1), choice_list)
     choices_id_list = [ { 'id': x, 'name': y } for x, y in zipped_list ]
@@ -28,7 +26,21 @@ def create_app(test_config=None):
 
     @app.route('/play', methods=['POST'])
     def play():
-        return 'Hello World!'
+        data = request.get_json()
+        player_choice = data['player']
+        computer_choice = choice()['id']
+        result = calculate_winner(player_choice-1, computer_choice-1)
+        return {
+            'results': result,
+            'player': player_choice,
+            'computer': computer_choice
+        }
 
+    def calculate_winner(player_choice, computer_choice):
+        if computer_choice in [(player_choice + 1) % 5, (player_choice + 3) % 5]:
+            return 'win'
+        if player_choice in [(computer_choice + 1) % 5, (computer_choice + 3) % 5]:
+            return 'lose'
+        return 'tie'
 
     return app

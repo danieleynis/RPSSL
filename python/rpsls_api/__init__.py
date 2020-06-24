@@ -38,7 +38,17 @@ def create_app(test_config=None):
 
     return app
 
+"""
+The way this method calculates if you win agains the computer is by taking a range
+of numbers 0-4 based on the id you and the computer chose. If we order the options
+in a specific way we can see that if we look at one choice it is able to destroy the
+choice that comes after it or the choice that comes 3 spaces from it (also looping around)
 
+For example:
+0 = scissors, this means that it is able to destroy 0+1 = 1 = paper and 0+3 = 3 = lizard
+In addition to this we need to use the modulo operator because element at the end such as
+4 = spock need to be able to loop around back
+"""
 def calculate_winner(player_choice, computer_choice):
     if computer_choice in [(player_choice + 1) % 5, (player_choice + 3) % 5]:
         return 'win'

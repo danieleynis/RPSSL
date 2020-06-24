@@ -14,21 +14,17 @@ def create_app(test_config=None):
     zipped_list = zip(range(1, num_choices+1), choice_list)
     choices_id_list = [ { 'id': x, 'name': y } for x, y in zipped_list ]
 
-
     @app.route('/')
     def index():
         return render_template('index.html')
-
 
     @app.route('/choices')
     def choices():
         return json.jsonify(choices_id_list)
 
-
     @app.route('/choice')
     def choice():
         return choices_id_list[random.randint(0, num_choices-1)]
-
 
     @app.route('/play', methods=['POST'])
     def play():

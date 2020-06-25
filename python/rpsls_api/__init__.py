@@ -1,8 +1,10 @@
 import random
 from flask import Flask, render_template, json, request
+from flask_cors import CORS
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
 
     if test_config is not None:
         app.config.from_mapping(test_config)

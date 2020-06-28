@@ -14,7 +14,7 @@ class Choice extends React.Component {
   render() {
     return (
       <>
-        <Button variant='secondary' onClick={this.props.onClick}>
+        <Button variant='info' onClick={this.props.onClick}>
           {this.state.name}
         </Button>{' '}
       </>
@@ -101,15 +101,17 @@ class Choices extends React.Component {
       return (
         <Container>
           <div>
-            Please make a choice selection below:
-            <br></br>
+            <h1>Rock-Paper-Scissors-Spock-Lizard</h1>
+            <h3>Please make a choice selection below:</h3>
             {choices.map(choice => (
               this.renderChoice(choice.name, choice.id)
             ))}
             {this.renderChoice('random', 0)}
             <br></br>
-            You have selected {this.state.player_choice} and the computer selected {this.state.computer_choice}. 
-            You {this.state.play_outcome}!
+            <h3>
+              You have selected {this.state.player_choice} and the computer selected {this.state.computer_choice}. 
+              You {this.state.play_outcome}!
+            </h3>
           </div>
         </Container>
       );

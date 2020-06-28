@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Choice extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: this.props.name,
+      choice_id: this.props.choice_id
+    }
+  }
+
   render() {
     return (
       <button className="choice">
-        {this.props.value}
+        {this.state.name}
       </button>
     );
   }
@@ -18,7 +26,10 @@ class Choices extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      choices: []
+      choices: [],
+      player_choice: null,
+      computer_choice: null,
+      play_outcome: null
     }
   }
 
@@ -39,8 +50,8 @@ class Choices extends React.Component {
     )
   }
 
-  renderChoice(name) {
-    return <Choice value={name}/>;
+  renderChoice(name, choice_id) {
+    return <Choice name={name} choice_id={choice_id} key={name}/>;
   }
 
   render() {
@@ -52,9 +63,15 @@ class Choices extends React.Component {
     } else {
       return (
         <div>
+          Please make a choice selection below:
+          <br></br>
           {choices.map(choice => (
-            this.renderChoice(choice.name)
+            this.renderChoice(choice.name, choice.choice_id)
           ))}
+          {this.renderChoice('random')}
+          <br></br>
+          You have selected {this.state.player_choice} and the computer selected {this.state.computer_choice}. 
+          You {this.state.play_outcome}!
         </div>
       );
     }

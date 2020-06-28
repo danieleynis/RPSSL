@@ -1,5 +1,5 @@
 import pytest
-from rpsls_api import create_app
+from rpssl_api import create_app
 
 @pytest.fixture
 def app():

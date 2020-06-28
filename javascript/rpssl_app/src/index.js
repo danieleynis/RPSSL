@@ -102,7 +102,7 @@ class Choices extends React.Component {
         <Container>
           <div>
             <h1>Rock-Paper-Scissors-Spock-Lizard</h1>
-            <h3>Please make a choice selection below:</h3>
+            <h5>Please make a choice selection below:</h5>
             {choices.map(choice => (
               this.renderChoice(choice.name, choice.id)
             ))}

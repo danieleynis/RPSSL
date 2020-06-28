@@ -27,7 +27,7 @@ def test_play(client):
     assert data['computer'] in range(1, 6)
 
 def test_calculate_winner(app):
-    from rpsls_api import calculate_winner
+    from rpssl_api import calculate_winner
     assert calculate_winner(1, 2) == 'win'
     assert calculate_winner(1, 4) == 'win'
     assert calculate_winner(3, 1) == 'win'

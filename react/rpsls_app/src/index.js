@@ -33,9 +33,8 @@ class Choices extends React.Component {
     }
   }
 
-  //https://jasonwatmore.com/post/2020/02/01/react-fetch-http-post-request-examples
-  handleChoiceSelection(name, choice_id) {
-    fetch('http://localhost:5000/play', {
+  playChoice(choice_id) {
+    fetch('http://localhost:5000/play', {  //https://jasonwatmore.com/post/2020/02/01/react-fetch-http-post-request-examples
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ player: choice_id })
@@ -48,6 +47,18 @@ class Choices extends React.Component {
           })
         }
     );
+  }
+
+  handleChoiceSelection(choice_id) {
+    if (choice_id === 0) {
+      fetch('http://localhost:5000/choice').then(res => res.json()).then(
+        (result) => {
+          choice_id = result.id;
+        }
+      ).then(() => this.playChoice(choice_id));
+    } else {
+      this.playChoice(choice_id);
+    }
   }
 
   trandlateChoiceIdToName(choice_id) {
@@ -75,7 +86,7 @@ class Choices extends React.Component {
   }
 
   renderChoice(name, choice_id) {
-    return <Choice name={name} choice_id={choice_id} key={name} onClick={() => this.handleChoiceSelection(name, choice_id)}/>;
+    return <Choice name={name} choice_id={choice_id} key={name} onClick={() => this.handleChoiceSelection(choice_id)}/>;
   }
 
   render() {

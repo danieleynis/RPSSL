@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Button, Container } from 'react-bootstrap';
 
 class Choice extends React.Component {
   constructor(props) {
@@ -13,9 +13,11 @@ class Choice extends React.Component {
 
   render() {
     return (
-      <button className="choice" onClick={this.props.onClick}>
-        {this.state.name}
-      </button>
+      <>
+        <Button variant='secondary' onClick={this.props.onClick}>
+          {this.state.name}
+        </Button>{' '}
+      </>
     );
   }
 }
@@ -97,17 +99,19 @@ class Choices extends React.Component {
       return <div>Loading</div>
     } else {
       return (
-        <div>
-          Please make a choice selection below:
-          <br></br>
-          {choices.map(choice => (
-            this.renderChoice(choice.name, choice.id)
-          ))}
-          {this.renderChoice('random', 0)}
-          <br></br>
-          You have selected {this.state.player_choice} and the computer selected {this.state.computer_choice}. 
-          You {this.state.play_outcome}!
-        </div>
+        <Container>
+          <div>
+            Please make a choice selection below:
+            <br></br>
+            {choices.map(choice => (
+              this.renderChoice(choice.name, choice.id)
+            ))}
+            {this.renderChoice('random', 0)}
+            <br></br>
+            You have selected {this.state.player_choice} and the computer selected {this.state.computer_choice}. 
+            You {this.state.play_outcome}!
+          </div>
+        </Container>
       );
     }
   }

@@ -3,19 +3,11 @@ import ReactDOM from 'react-dom';
 import { Button, Container } from 'react-bootstrap';
 
 class Choice extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: this.props.name,
-      choice_id: this.props.choice_id
-    }
-  }
-
   render() {
     return (
       <>
         <Button variant='info' onClick={this.props.onClick}>
-          {this.state.name}
+          {this.props.name}
         </Button>{' '}
       </>
     );
@@ -31,7 +23,7 @@ class Choices extends React.Component {
       choices: [],
       player_choice: null,
       computer_choice: null,
-      play_outcome: null
+      play_outcome: null,
     }
   }
 
@@ -98,6 +90,9 @@ class Choices extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading</div>
     } else {
+      const message = this.state.player_choice === null ? '' : ('You have selected ' + this.state.player_choice 
+      + ' and the computer selected ' + this.state.computer_choice + '. You ' + this.state.play_outcome + '!');
+
       return (
         <Container>
           <div>
@@ -108,10 +103,7 @@ class Choices extends React.Component {
             ))}
             {this.renderChoice('random', 0)}
             <br></br>
-            <h3>
-              You have selected {this.state.player_choice} and the computer selected {this.state.computer_choice}. 
-              You {this.state.play_outcome}!
-            </h3>
+            <h3>{message}</h3>
           </div>
         </Container>
       );
